@@ -10,7 +10,6 @@ import (
 	"encoding/gob"
 	"errors"
 	"fmt"
-	"golang.org/x/crypto/ssh/terminal"
 	"io"
 	"io/ioutil"
 	"net"
@@ -21,6 +20,8 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	"golang.org/x/crypto/ssh/terminal"
 
 	"golang.org/x/crypto/scrypt"
 )
@@ -119,7 +120,7 @@ func makeServer() {
 		handleError(err)
 		return
 	}
-	defer l.Close()
+	defer l.Close() //ensure port is closed on error, when function returns
 	port := strconv.Itoa(l.Addr().(*net.TCPAddr).Port)
 	fmt.Println("Run", "`uniclip", getOutboundIP().String()+":"+port+"`", "to join this clipboard")
 	fmt.Println()
